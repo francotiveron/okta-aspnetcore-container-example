@@ -11,7 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'ee7feb0a-c0be-41ce-a436-a029d128a05e'
-  imageRepository: 'francotiveronoktaaspnetcorecontainerexample'
+  imageRepository: 'oktaaspnetcorecontainerexample'
   containerRegistry: 'webapplication220200723175025.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/okta-aspnetcore-container-example/Dockerfile'
   #tag: '$(Build.BuildId)'
