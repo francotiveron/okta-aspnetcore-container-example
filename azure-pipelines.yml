@@ -15,7 +15,7 @@ variables:
   containerRegistry: 'webapplication220200723175025.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/okta-aspnetcore-container-example/Dockerfile'
   #tag: '$(Build.BuildId)'
-  tag: 'DevOpsCD'
+  tag: 'latest'
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
