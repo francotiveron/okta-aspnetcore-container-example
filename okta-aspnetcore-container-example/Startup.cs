@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Okta.AspNetCore;
+using System;
 using System.Collections.Generic;
 
 namespace okta_aspnetcore_container_example
@@ -22,6 +23,8 @@ namespace okta_aspnetcore_container_example
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var _ClientId = Configuration.GetValue<string>("Okta:ClientId");
+            //Console.WriteLine(_ClientId);
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -30,11 +33,10 @@ namespace okta_aspnetcore_container_example
            .AddCookie()
            .AddOktaMvc(new OktaMvcOptions
            {
-                // Replace these values with your Okta configuration
                 OktaDomain = Configuration.GetValue<string>("Okta:OktaDomain"),
-               ClientId = Configuration.GetValue<string>("Okta:ClientId"),
-               ClientSecret = Configuration.GetValue<string>("Okta:ClientSecret"),
-               Scope = new List<string> { "openid", "profile", "email" },
+                ClientId = Configuration.GetValue<string>("Okta:ClientId"),
+                ClientSecret = Configuration.GetValue<string>("Okta:ClientSecret"),
+                Scope = new List<string> { "openid", "profile", "email" },
            });
 
             services.AddControllersWithViews();
