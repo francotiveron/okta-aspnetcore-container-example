@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,6 +40,15 @@ namespace okta_aspnetcore_container_example
                 Scope = new List<string> { "openid", "profile", "email" },
            });
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                // Only loopback proxies are allowed by default. Clear that restriction because forwarders are
+                // being enabled by explicit configuration.
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -57,6 +67,11 @@ namespace okta_aspnetcore_container_example
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
 
             app.UseRouting();
 
